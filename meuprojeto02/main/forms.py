@@ -18,8 +18,4 @@ class UserRegistrationForm(forms.ModelForm):
         fields = ['nome','email', 'senha']
 
 class InscricaoForm(forms.Form):
-    cursos = forms.ModelMultipleChoiceField(
-        queryset=Curso.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=True
-    )
+    cursos = forms.ModelMultipleChoiceField(queryset=Curso.objects.all(), widget=forms.CheckboxSelectMultiple)

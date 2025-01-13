@@ -16,7 +16,7 @@ from django.http import HttpResponseBadRequest  # Retorna uma resposta HTTP com 
 from django.db import transaction  # Usado para controlar transações de banco de dados (commit/rollback)
 from django.http import HttpResponse, JsonResponse  # 'HttpResponse' para resposta genérica e 'JsonResponse' para respostas JSON
 from django.contrib import messages  # Usado para mostrar mensagens de feedback ao usuário, como sucesso ou erro
-
+import mysql.connector
 
 
 
@@ -31,7 +31,14 @@ def sobre(request):
     return render(request, 'sobre.html')
 
 def cursos(request):
-    return render(request, 'cursos.html')
+    if not request.session.get('usuario_id'):
+        return redirect('/')
+    else:
+        cnx = mysql.connector.connect(host='localhost', user='root', password='', database='btcanes')
+        cursor = cnx.cursor()
+        cursor.execute("SELECT * FROM cursos")
+        cursos = cursor.fetchall()
+        return render(request, 'cursos.html', {'cursos': cursos})
 
 def contato(request):
     return render(request, 'contato.html')
@@ -197,6 +204,8 @@ def editarusuario(request,id):
         return render(request, 'editarusuario.html',{'id': id_usuario})
     
 def matriculas(request):
+    # Limpar o campo de sessão
+    request.session['usuario_id'] = ""
     cursos = Curso.objects.all()
 
     if request.method == 'POST':
@@ -205,10 +214,12 @@ def matriculas(request):
             cursos_selecionados = form.cleaned_data['cursos']
             usuario = request.user
 
-            # Cria a matrícula para cada curso selecionado
+            # Criar a matrícula para cada curso selecionado
             for curso in cursos_selecionados:
+                # Inserção diretamente no banco utilizando o Django ORM
                 Matricula.objects.create(usuario=usuario, curso=curso)
 
+            # Redireciona após sucesso
             return redirect('index')
     else:
         form = InscricaoForm()

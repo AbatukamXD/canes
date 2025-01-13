@@ -324,8 +324,9 @@
   <div class="container">
     <h1>Inscrição nos Cursos</h1>
 
-    {% csrf_token %}
+
 <form method="POST">
+    {% csrf_token %}
     {{ form.as_p }}  <!-- Exibe o campo do formulário com checkboxes para os cursos -->
 
     <button type="submit">Enviar Inscrição</button>
