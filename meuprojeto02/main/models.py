@@ -13,3 +13,19 @@ class User(models.Model):
     def __str__(self):
         return self.nome
     
+class Curso(models.Model):
+    nome = models.CharField(max_length=200)
+    descricao = models.TextField()
+
+    class Meta:
+        db_table = 'cursos'
+
+    def __str__(self):
+        return self.nome
+
+class Matricula(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.usuario.username} - {self.curso.nome}"

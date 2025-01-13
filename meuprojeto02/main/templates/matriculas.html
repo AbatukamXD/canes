@@ -324,31 +324,12 @@
   <div class="container">
     <h1>Inscrição nos Cursos</h1>
 
-    <form method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="id_usuario" value="{{ user.id }}">
-    
-        <fieldset>
-            <legend>Escolha os cursos que deseja se inscrever:</legend>
-    
-            {% if cursos %}
-            <div id="curso-categories">
-                {% for curso in cursos %}
-                <div class="course-category">
-                    <label>
-                        <input type="checkbox" class="curso-checkbox" name="curso" value="{{ curso.id }}"> {{ curso.nome }}
-                    </label>
-                    <p>{{ curso.descricao }}</p>
-                </div>
-                {% endfor %}
-            </div>
-            {% else %}
-            <p>{{ message }}</p>
-            {% endif %}
-    
-            <button type="submit">Enviar Inscrição</button>
-        </fieldset>
-    </form>
+    {% csrf_token %}
+<form method="POST">
+    {{ form.as_p }}  <!-- Exibe o campo do formulário com checkboxes para os cursos -->
+
+    <button type="submit">Enviar Inscrição</button>
+</form>
 </div>
 
 

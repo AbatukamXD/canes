@@ -1,5 +1,5 @@
 from django import forms
-from .models import Contato, User
+from .models import Contato, User, Curso
 
 
 class ContatoForm(forms.ModelForm):
@@ -17,3 +17,9 @@ class UserRegistrationForm(forms.ModelForm):
         model = User
         fields = ['nome','email', 'senha']
 
+class InscricaoForm(forms.Form):
+    cursos = forms.ModelMultipleChoiceField(
+        queryset=Curso.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True
+    )

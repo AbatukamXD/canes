@@ -1,4 +1,5 @@
-from .forms import UserLoginForm, UserRegistrationForm
+from .forms import UserLoginForm, UserRegistrationForm, InscricaoForm
+from .models import Curso, Matricula
 from django.http import HttpResponseRedirect  # Usado para redirecionar o usuário para uma nova URL
 from django.shortcuts import render, redirect  # 'render' para renderizar templates e 'redirect' para redirecionar o usuário
 from main.bd_config import conecta_no_banco_de_dados  # Função personalizada para conectar-se ao banco de dados
@@ -196,7 +197,23 @@ def editarusuario(request,id):
         return render(request, 'editarusuario.html',{'id': id_usuario})
     
 def matriculas(request):
-    return render(request, 'matriculas.html')
+    cursos = Curso.objects.all()
+
+    if request.method == 'POST':
+        form = InscricaoForm(request.POST)
+        if form.is_valid():
+            cursos_selecionados = form.cleaned_data['cursos']
+            usuario = request.user
+
+            # Cria a matrícula para cada curso selecionado
+            for curso in cursos_selecionados:
+                Matricula.objects.create(usuario=usuario, curso=curso)
+
+            return redirect('index')
+    else:
+        form = InscricaoForm()
+
+    return render(request, 'matriculas.html', {'form': form, 'cursos': cursos})
 
 
 def programacao(request):

@@ -1,51 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
 
-<body style="text-align: center;  font-family: Segoe UI;">
-       
-    
-    
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canes RS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="icon" href="https://scontent-gru1-2.xx.fbcdn.net/v/t39.30808-6/469044015_1845406492886065_3027740038612027073_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=dt8agHX2DsoQ7kNvgFmNsxm&_nc_zt=23&_nc_ht=scontent-gru1-2.xx&_nc_gid=A4r6z9hC1CJAf72FKOXdNKn&oh=00_AYDWot1cbwh2Oz2PFfQWPJgiwKPHbx3DIMIPSB-ZajEHow&oe=67552163" type="image/png">
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f7f7f7;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      text-align: center;
+    }
+    /* Navbar */
+    .navbar-brand {
+      font-size: 30px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .navbar-brand img {
+      width: 40px;
+      height: auto;
+      margin-right: 10px;
+    }
+
+    h1 {
+      font-size: 25px;
+      font-family: 'Segoe UI', sans-serif;
+      color: #333;
+      margin-top: 120px;
+    }
+
+    /* Estilos do Formulário */
+    form {
+      max-width: 500px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .inputlogin {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 5px 0;
+    }
+
+    .inputlogin:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .botaologin {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .botaologin:hover {
+      background-color: #0056b3;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      form {
+        padding: 15px;
+      }
+      .inputlogin {
+        font-size: 14px;
+      }
+      .botaologin {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+ <!-- Navbar -->
+ <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="{% url 'index' %}">
+      <img src="https://scontent-gru1-2.xx.fbcdn.net/v/t39.30808-6/469044015_1845406492886065_3027740038612027073_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=flQCp1KYCU8Q7kNvgEl_Xn2&_nc_zt=23&_nc_ht=scontent-gru1-2.xx&_nc_gid=A2tVyF3GRz2GVyVJrxr_1A6&oh=00_AYBefhYS59qNNszgRLYTd2xYfGBr26h7yR2rSEVgFDYSvw&oe=678345E3" alt="Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'index' %}">Início</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'sobre' %}">Sobre Nós</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'cursos' %}">Cursos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'contato' %}">Contato</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Título da Página -->
+  <h1>Por favor, edite os dados do usuário</h1>
+
+  <!-- Formulário de Edição -->
+  <form method="POST" action="/editarusuario/{{ id }}">
+    {% csrf_token %}
     <div>
-      
-        
-                <h1 style="text-align: center; font-size: 25px; font-family: Segoe UI;">
-            Por favor, edite os dados do usuário
-       
-                <form method="POST" action="/editarusuario/{{ id }}">
-                    {% csrf_token %}  <div>
-                <input style="margin: 5px" class="inputlogin" type="text" name="nome" placeholder="Nome" >
-            </div>
-                       <div>
-                <input style="margin: 5px"  class="inputlogin"type="email" name="email" placeholder="E-mail" >
-            </div>
-                       <div>
-                <input style="margin: 5px" class="inputlogin" type="password" name="senha" placeholder="Senha">
-            </div>
-        </div>
-       
-        
-                    <br>
-        <button class="botaologin" type="submit">Atualizar</button>
-    
+      <input class="inputlogin" type="text" name="nome" placeholder="Nome" value="{{ usuario.nome }}">
+    </div>
+    <div>
+      <input class="inputlogin" type="email" name="email" placeholder="E-mail" value="{{ usuario.email }}">
+    </div>
+    <div>
+      <input class="inputlogin" type="password" name="senha" placeholder="Senha">
+    </div>
 
-    
-    
-    <script>
-      //Limpa os campos do formulário ao entrar na tela
-      $(document).ready(function() {
-        $('input[name="nome"]').val('');
-        $('input[name="email"]').val('');
-        $('input[name="senha"]').val('');
-      });
-    </script>
-    
-
-    
-    
-    </form>
     <br>
-   
-<!--Div para exibir mensagens de erro, inicialmente oculta -->
+    <button class="botaologin" type="submit">Atualizar</button>
+  </form>
 
-</div>
-
+  <script>
+    // Limpa os campos do formulário ao entrar na tela
+    $(document).ready(function() {
+      $('input[name="nome"]').val('{{ usuario.nome }}');
+      $('input[name="email"]').val('{{ usuario.email }}');
+      $('input[name="senha"]').val('');
+    });
+  </script>
 
 </body>
+
+</html>
