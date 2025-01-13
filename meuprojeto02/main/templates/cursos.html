@@ -297,7 +297,7 @@
           <img src="https://scontent-gru1-2.xx.fbcdn.net/v/t39.30808-6/469044015_1845406492886065_3027740038612027073_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=flQCp1KYCU8Q7kNvgEl_Xn2&_nc_zt=23&_nc_ht=scontent-gru1-2.xx&_nc_gid=A2tVyF3GRz2GVyVJrxr_1A6&oh=00_AYBefhYS59qNNszgRLYTd2xYfGBr26h7yR2rSEVgFDYSvw&oe=678345E3" alt="{{ curso.1 }}">
           <h4>{{ curso.1 }}</h4>
           <p>{{ curso.2 }}</p>
-          <form method="post" action="/cursos/{{ curso.0 }}/">
+          <form method="post" action="/matriculas/{{ curso.0 }}/">
             {% csrf_token %}
             <button type="submit" class="botao-inscricao">Inscrever-se</button>
           </form>

@@ -203,28 +203,46 @@ def editarusuario(request,id):
         # Exiba o formulário (assumindo lógica de renderização)
         return render(request, 'editarusuario.html',{'id': id_usuario})
     
-def matriculas(request):
-    # Limpar o campo de sessão
-    request.session['usuario_id'] = ""
-    cursos = Curso.objects.all()
-
-    if request.method == 'POST':
-        form = InscricaoForm(request.POST)
-        if form.is_valid():
-            cursos_selecionados = form.cleaned_data['cursos']
-            usuario = request.user
-
-            # Criar a matrícula para cada curso selecionado
-            for curso in cursos_selecionados:
-                # Inserção diretamente no banco utilizando o Django ORM
-                Matricula.objects.create(usuario=usuario, curso=curso)
-
-            # Redireciona após sucesso
-            return redirect('index')
+def matriculas(request,id):
+    if not request.session.get('usuario_id'):
+        return redirect('/')
     else:
-        form = InscricaoForm()
+        usuario_id = request.session['usuario_id']
+        try:
+            # Verifica se o método é POST (já que estamos usando um formulário POST)
+            if request.method == 'POST':
+               
 
-    return render(request, 'matriculas.html', {'form': form, 'cursos': cursos})
+                # Conectar ao banco de dados
+                cnx = mysql.connector.connect(host='localhost', user='root', password='', database='btcanes')
+                cursor = cnx.cursor()
+                
+                # Inserir no carrinho com o valor da quantidade
+                sql = """
+                    INSERT INTO matriculas (id_usuario, id_curso)
+                    VALUES (%s, %s);
+                """
+                values = (int(usuario_id), int(id))
+                cursor.execute(sql, values)
+
+                cnx.commit()
+                cnx.close()
+
+            # Após adicionar, renderizar novamente os produtos
+            cnx = mysql.connector.connect(host='localhost', user='root', password='', database='btcanes')
+            cursor = cnx.cursor()
+            cursor.execute("SELECT * FROM cursos")
+            cursos = cursor.fetchall()
+            return render(request, 'cursos.html', {'cursos': cursos})
+
+        except Exception as e:
+            # Em caso de erro
+            print(f"Erro ao atender chamado: {e}")
+            cnx = mysql.connector.connect(host='localhost', user='root', password='', database='btcanes')
+            cursor = cnx.cursor()
+            cursor.execute("SELECT * FROM cursos")
+            cursos = cursor.fetchall()
+            return render(request, 'cursos.html', {'cursos': cursos})
 
 
 def programacao(request):
